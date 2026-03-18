@@ -68,6 +68,7 @@ class Employee {
         wcout << L" ; Сотрудник : " << *empName;
         wcout << L" ; Оклад : " << empSalary;
         wcout << L" ; Принят на работу : " << empDate.ShowDate() << endl;
+        wcout << L"И это все, что мы знаем о нем." << endl;
     };
 
     void inputEmp() {
