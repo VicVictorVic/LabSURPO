@@ -1,0 +1,85 @@
+﻿#include <iostream>
+#include <windows.h>
+#include <iomanip>
+#include <io.h> // для _setmode
+#include <string> // для работы со строками
+#include <fcntl.h> // Для Windows: _O_U16TEXT
+
+using namespace std;
+
+wchar_t colon[] = L":";
+
+/* class Time realisation */
+class Time {
+
+    public:
+
+    int Hours;
+    int Mins;
+    int Secs;
+
+    Time() {
+        Hours = 0;
+        Mins = 0;
+        Secs = 0;
+    };
+
+    Time(int inHours, int inMins, int inSecs) {
+        Hours = inHours;
+        Mins = inMins;
+        Secs = inSecs;
+    };
+
+    long TimeToSecs() {
+        return(Hours * 3600 + Mins * 60 + Secs);
+    };
+
+    void ShowTime() {
+        wcout << L"\nЭто : " << Hours << colon << Mins << colon << Secs << endl;
+    };
+
+    void GetTime() {
+        wcout << L"\nВведите свою время : \n"; 
+        wcout << L"Часы : "; 
+        wcin >> Hours;
+        wcout << L"Минуты : ";  
+        wcin >> Mins;
+        wcout << L"Секунды : "; 
+        wcin >> Secs;
+    };
+
+};
+
+Time SecsToTime(long mySecs) {
+    Time tmpTime;
+    tmpTime.Hours = mySecs / 3600;
+    tmpTime.Mins = (mySecs % 3600) / 60;
+    tmpTime.Secs = mySecs % 60;
+    return(tmpTime);
+};
+
+int main() {
+
+    // Настройка консоли Windows для отображения Unicode
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    _setmode(_fileno(stdin), _O_U16TEXT);
+
+    //create 2 Time type objects;
+    Time myTime1(12,15,33);
+    Time myTime2(03,25,17);
+
+    wcout << L"\nВремя 1";
+    myTime1.ShowTime();
+
+    wcout << L"\nВремя 2";
+    myTime2.ShowTime();
+
+    wcout << L"\nПосмотрим результат!\n";
+    Time myTime3 = SecsToTime(myTime1.TimeToSecs() + myTime2.TimeToSecs());
+    myTime3.ShowTime();
+
+    wcout << "\n\n";
+
+    return 0;
+
+}
